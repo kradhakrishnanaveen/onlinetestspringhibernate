@@ -55,7 +55,7 @@ height: 10px;
 margin-top: -30px;
 height: 50px;
 }
-#menu1{
+#homebtn{
 margin-left: 50px;
 width: 8%;
 margin-top: 0.6%;
@@ -75,14 +75,13 @@ border-radius: 23px !important;
 		<%@include file="header.jsp" %>
 		<div class="container-fluid" id="body" style="min-height: 470px; margin-top: 100px;">
 		<div id="menu" style="background-color:grey;">
-		<button class="btn btn-primary" type="button"
-					id="menu1">
+			<a href="homepage.do"><button class="btn btn-primary" type="button"
+					id="homebtn">
 					Home
-				</button>
+				</button></a>
 			<c:set var="counter" value="2" />	
 			<c:forEach items="${listCategories }" var="cat">
 				<button class="btn btn-default menus" id="menu${cat.cId }" value="${cat.cId }" name="menu${cat.cId }">${cat.cName }</button>
-			
 			</c:forEach>	
 				<!-- <button class="btn btn-primary" type="button" id="menu2" >
 					Java
@@ -116,21 +115,21 @@ border-radius: 23px !important;
         <div class="carousel-inner">
             <div class="item active">
                 <!-- Set the first background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Java');"></div>
+                <div class="fill" style="background-image:url('img/1900x1080&text=Java.gif');"></div>
                 <div class="carousel-caption">
                     <h2>Core Java</h2>
                 </div>
             </div>
             <div class="item">
                 <!-- Set the second background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=C++');"></div>
+                <div class="fill" style="background-image:url('img/1900x1080&text=C++.gif');"></div>
                 <div class="carousel-caption">
                     <h2>Advanced Java</h2>
                 </div>
             </div>
             <div class="item">
                 <!-- Set the third background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Aptitude');"></div>
+                <div class="fill" style="background-image:url('img/1900x1080&text=Web Technologies.gif');"></div>
                 <div class="carousel-caption">
                     <h2>Web Technologies</h2>
                 </div>
@@ -148,11 +147,7 @@ border-radius: 23px !important;
     </header>
     </div>
 
-    <!-- Page Content -->
-    
-
-        
-				
+    <!-- Page Content -->		
 		
 		</div>
 		<%@include file="footer.jsp" %>
