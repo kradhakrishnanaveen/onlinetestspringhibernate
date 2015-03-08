@@ -245,7 +245,7 @@ public class OnlineTestDaoImp implements OnlineTestDao {
 	@Override
 	public long addTestDetails(NormalTest normalTest, long uId) {
 
-		String date = new SimpleDateFormat("yyyy-MM-yy").format(new Date());
+		/*String date = new SimpleDateFormat("yyyy-MM-yy").format(new Date());
 		Date date1 = null;
 		try {
 			date1 = new SimpleDateFormat("yyyy-MM-yy").parse(date);
@@ -253,7 +253,7 @@ public class OnlineTestDaoImp implements OnlineTestDao {
 			
 			e1.printStackTrace();
 		}
-		normalTest.settDate(date1);
+		normalTest.settDate(date1);*/
 		normalTest.setUser(getUserById(uId));
 
 		Session session = null;

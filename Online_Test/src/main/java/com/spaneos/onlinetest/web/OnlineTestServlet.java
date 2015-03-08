@@ -503,4 +503,15 @@ public class OnlineTestServlet {
 			return "redirect:Login_page.jsp";
 		}
 	}
+	@RequestMapping(value="/gettestdetails.do")
+	public String getTestDetails(Model model,HttpSession session){
+		if(session == null){
+			return "redirect:Login_page.jsp";
+		} else{
+			long uId = (long) session.getAttribute("uid");
+			List<NormalTest> listNormalTest = onlineTestServiceImp.getTestDetailsByUserId(uId);
+			model.addAttribute("testDetails", listNormalTest);
+		}
+		return "getTestDetails";
+	}
 }

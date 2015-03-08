@@ -10,7 +10,7 @@
 <script src="js/jquery-1.11.1.js"></script> 
 
  <script type="text/javascript" src="tinymce/tinymce.min.js"></script> 
-     <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
  <link href="css/full-slider.css" rel="stylesheet">
 
 <script type="text/javascript">
@@ -18,11 +18,15 @@
 		$(".menus").click(function(){
 			var val = $(this).val();
 			$.get("subhomepage.do?cId="+val,show);
-			function show(data){
-				$("#carosel").html("");
-				$("#carosel").html(data);
-			}
 		});
+		$("#feedbackbtn").click(function(){
+			var val = $(this).val();
+			$.get("gettestdetails.do",show);
+		});
+		function show(data){
+			$("#carosel").html("");
+			$("#carosel").html(data);
+		}
 	});
 </script>
 <style type="text/css">
@@ -33,8 +37,6 @@
 	margin-left: 0.0px;
 	margin-right: 0.0px;
 }
-
-
 #wrapper {
 	height: 100%;
 	width: 100%;
@@ -61,6 +63,11 @@ width: 8%;
 margin-top: 0.6%;
 border-radius: 23px;
 }
+#feedbackbtn{
+width: 8%;
+margin-top: 0.6%;
+border-radius: 23px;
+}
 .menus{
 margin-left: 10px;;
 width: 12%;
@@ -79,6 +86,7 @@ border-radius: 23px !important;
 					id="homebtn">
 					Home
 				</button></a>
+			<button class="btn btn-success" type="button" id="feedbackbtn">FeedBack</button>	
 			<c:set var="counter" value="2" />	
 			<c:forEach items="${listCategories }" var="cat">
 				<button class="btn btn-default menus" id="menu${cat.cId }" value="${cat.cId }" name="menu${cat.cId }">${cat.cName }</button>

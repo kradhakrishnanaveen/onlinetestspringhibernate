@@ -86,7 +86,7 @@ public class OnlineTestServiceImp implements OnlineTestService {
 		List<TestSection> listTestSections = onlineTestDaoImp.getAllSectionsByCategoryId(categoryId);
 		for(TestSection testSection : listTestSections){
 			testSection.setListQuestions(getAllQuestionsBySectionId(testSection.getsId()));
-			System.out.println(testSection.getsId()+" = "+testSection.getsName());
+			
 		}
 		return listTestSections;
 	}
@@ -127,10 +127,10 @@ public class OnlineTestServiceImp implements OnlineTestService {
 	@Override
 	public List<NormalTest> getTestDetailsByUserId(long uId) {
 		List<NormalTest> list = onlineTestDaoImp.getTestDetailsByUserId(uId);
-		for(NormalTest normalTest:list){
+		/*for(NormalTest normalTest:list){
 			normalTest.setListNormalFeedBack(getFeedBackTestDetails(normalTest.gettId()));
 			normalTest.setTestSection(getSectionById(normalTest.getTestSection().getsId()));
-		}
+		}*/
 		return list;
 	}
 
