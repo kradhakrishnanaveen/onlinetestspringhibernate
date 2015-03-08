@@ -22,6 +22,7 @@ $(function(){
 <body>
 
 	<div class="container-fluid" style="padding: 5%;">
+	<c:if test="${not empty category.listSection}">
 		<div class="panel panel-primary" style="width: 300px;height: 200px; ">
 			<div class="panel-heading" align="center">
 				<h3 class="panel-title">${category.cName }</h3>
@@ -34,6 +35,7 @@ $(function(){
 			<br>
 			<br>
 				<ul>
+					
 				<c:forEach items="${category.listSection }" var="cat">
 					<li>
 					<a href="instructions.do?sid=${cat.sId }">${cat.sName }</a>
@@ -44,6 +46,10 @@ $(function(){
 			</div>
 			<!-- <div class="panel-footer">Panel footer</div> -->
 		</div>
+		</c:if>
+		<c:if test="${empty category.listSection}">
+		<h3>Sorry! No Sections found.</h3>
+		</c:if>
 	</div>
 </body>
 </html>
