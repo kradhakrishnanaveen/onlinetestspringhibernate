@@ -75,7 +75,7 @@ public class OnlineTestServlet {
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String loginValidate(Model model, String uname, String pwd,
-			HttpServletRequest request, HttpSession session) {
+			HttpServletRequest request) {
 
 		if (uname == null || uname == "" || pwd == null || pwd == "") {
 			return "redirect:Login_page.jsp";
@@ -89,6 +89,8 @@ public class OnlineTestServlet {
 
 				if (uname.equals(user.getEmail())
 						&& pwd.equals(user.getPassword())) {
+					HttpSession session = request.getSession();
+					System.out.println(session.getId());
 					if (uname.equals("admin@gmail.com")) {
 						session.setAttribute("myadmin", "iamtheadmin");
 					} else{
@@ -97,7 +99,7 @@ public class OnlineTestServlet {
 					session.setAttribute("uid", user.getuId());
 					session.setAttribute("uname", user.getuName());
 
-					return homePage(model, session);
+					return "redirect:homepage.do";
 				} else {
 					model.addAttribute("message",
 							"Please Enter Valid Username or Password");
