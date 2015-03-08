@@ -50,13 +50,15 @@ public class OnlineTestServlet {
 		String opt3 = request.getParameter("opt3");
 		String opt4 = request.getParameter("opt4");
 		String opt5 = request.getParameter("opt5");
-		if(opt5 == ""||opt5==null)
-			opt5=null;
+		if (opt5 == "" || opt5 == null)
+			opt5 = null;
 		String correctans = request.getParameter("correctans");
 		String explanation = request.getParameter("explanation");
-		if(explanation == ""||explanation==null)
-			explanation=null;
-		TestQuestions testQuestions = new TestQuestions(0, question, opt1, opt2, opt3, opt4, opt5, correctans, explanation, onlineTestServiceImp.getSectionById(sid));
+		if (explanation == "" || explanation == null)
+			explanation = null;
+		TestQuestions testQuestions = new TestQuestions(0, question, opt1,
+				opt2, opt3, opt4, opt5, correctans, explanation,
+				onlineTestServiceImp.getSectionById(sid));
 
 		if (onlineTestServiceImp.addTestQuestions(testQuestions, sid)) {
 			model.addAttribute("message", "Question Added Successfully");
@@ -64,46 +66,51 @@ public class OnlineTestServlet {
 			model.addAttribute("message", "Question Not Added Successfully");
 		}
 		List<TestSection> sectionList = onlineTestServiceImp
-				.getAllSectionsByCategoryId(onlineTestServiceImp.getSectionById(sid).getCategory().getcId());
+				.getAllSectionsByCategoryId(onlineTestServiceImp
+						.getSectionById(sid).getCategory().getcId());
 		model.addAttribute("sectionList", sectionList);
 
 		return "addQuestion";
 	}
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public String loginValidate(Model model, String uname,String pwd,HttpServletRequest request,HttpSession session) {
+	public String loginValidate(Model model, String uname, String pwd,
+			HttpServletRequest request, HttpSession session) {
 
 		if (uname == null || uname == "" || pwd == null || pwd == "") {
 			return "redirect:Login_page.jsp";
 		} else {
-
 			User user = onlineTestServiceImp.authenticateUser(uname, pwd);
 			if (user == null) {
 				model.addAttribute("message",
 						"Please Enter Valid Username or Password");
 				return "Login_page";
 			} else {
-				System.out.println("user enterred is:"+user);
-				
+				System.out
+						.println(user.getEmail() + " = " + user.getPassword());
+				if (uname.equals(user.getEmail())
+						&& pwd.equals(user.getPassword())) {
+
 					session.setAttribute("uid", user.getuId());
 					session.setAttribute("uname", user.getuName());
 					return homePage(model, session);
-/*
 				} else {
-					String name = (String) session.getAttribute("uname");
-					if (name == null || name == "") {
-						return "redirect:Login_page.jsp";
-					} else {
-						return homePage(model, session);
-					}
-				}*/
+					model.addAttribute("message",
+							"Please Enter Valid Username or Password");
+					return "Login_page";
+				}
+				/*
+				 * } else { String name = (String)
+				 * session.getAttribute("uname"); if (name == null || name ==
+				 * "") { return "redirect:Login_page.jsp"; } else { return
+				 * homePage(model, session); } }
+				 */
 			}
 		}
 	}
 
 	@RequestMapping(value = "/subhomepage.do", method = RequestMethod.GET)
-	public String subHomePage(Model model, HttpSession session,
-			String cId) {
+	public String subHomePage(Model model, HttpSession session, String cId) {
 
 		if (session == null) {
 			return "redirect:Login_page";
@@ -128,14 +135,13 @@ public class OnlineTestServlet {
 		}
 	}
 
-	@RequestMapping(value = "/instructions.do",method=RequestMethod.GET)
-	public String instructions(Model model, HttpSession session,
-			String sid) {
+	@RequestMapping(value = "/instructions.do", method = RequestMethod.GET)
+	public String instructions(Model model, HttpSession session, String sid) {
 
 		if (session == null) {
 			return "redirect:Login_page.jsp";
 		} else {
-			
+
 			long sId = Integer.parseInt(sid);
 			TestSection testSection = onlineTestServiceImp.getSectionById(sId);
 			session.setAttribute("testSection", testSection);
@@ -161,54 +167,54 @@ public class OnlineTestServlet {
 			return "redirect:Login_page.jsp";
 		} else {
 			Object obj = session.getAttribute("testSection");
-			if(obj == null){
+			if (obj == null) {
 				return homePage(model, session);
 			} else {
-				
-			TestSection testSection = (TestSection) obj;
-			Map<Long, String> lisAnswers = new TreeMap<Long, String>();
-			Map<Long, String> listFlags = new TreeMap<Long, String>();
-			Map<Long, TestQuestions> lisQuestions = new TreeMap<Long, TestQuestions>();
-		
-			for (TestQuestions testQuestions : testSection.getListQuestions()) {
-				lisAnswers.put(testQuestions.getqId(), null);
-				listFlags.put(testQuestions.getqId(), "flag");
-				lisQuestions.put(testQuestions.getqId(), testQuestions);
+
+				TestSection testSection = (TestSection) obj;
+				Map<Long, String> lisAnswers = new TreeMap<Long, String>();
+				Map<Long, String> listFlags = new TreeMap<Long, String>();
+				Map<Long, TestQuestions> lisQuestions = new TreeMap<Long, TestQuestions>();
+
+				for (TestQuestions testQuestions : testSection
+						.getListQuestions()) {
+					lisAnswers.put(testQuestions.getqId(), null);
+					listFlags.put(testQuestions.getqId(), "flag");
+					lisQuestions.put(testQuestions.getqId(), testQuestions);
+				}
+				model.addAttribute("testQuestion", testSection
+						.getListQuestions().get(0));
+				session.setAttribute("firstqid", testSection.getListQuestions()
+						.get(0).getqId());
+				session.setAttribute("lastqid", testSection.getListQuestions()
+						.get(testSection.getListQuestions().size() - 1)
+						.getqId());
+				session.setAttribute("testSection", testSection);
+				model.addAttribute("answercount", getAnswerCount(lisAnswers));
+				model.addAttribute(
+						"lisAnswers",
+						lisAnswers.get(testSection.getListQuestions().get(0)
+								.getqId()));
+				model.addAttribute(
+						"flagvar",
+						listFlags.get(testSection.getListQuestions().get(0)
+								.getqId()));
+				session.setAttribute("answerList", lisAnswers);
+				session.setAttribute("flagList", listFlags);
+				session.setAttribute("questionsList", lisQuestions);
+				return "examportal";
 			}
-			model.addAttribute("testQuestion", testSection.getListQuestions()
-					.get(0));
-			session.setAttribute("firstqid", testSection.getListQuestions()
-					.get(0).getqId());
-			session.setAttribute(
-					"lastqid",
-					testSection.getListQuestions()
-							.get(testSection.getListQuestions().size() - 1)
-							.getqId());
-			session.setAttribute("testSection", testSection);
-			model.addAttribute("answercount", getAnswerCount(lisAnswers));
-			model.addAttribute(
-					"lisAnswers",
-					lisAnswers.get(testSection.getListQuestions().get(0)
-							.getqId()));
-			model.addAttribute(
-					"flagvar",
-					listFlags.get(testSection.getListQuestions().get(0)
-							.getqId()));
-			session.setAttribute("answerList", lisAnswers);
-			session.setAttribute("flagList", listFlags);
-			session.setAttribute("questionsList", lisQuestions);
-			return "examportal";
 		}
 	}
-	}
+
 	@RequestMapping(value = "/getnewquestion.do", method = RequestMethod.GET)
-	public String getNewQuestion(Model model, HttpSession session,
-			String qid, String flag, String answer) {
+	public String getNewQuestion(Model model, HttpSession session, String qid,
+			String flag, String answer) {
 
 		if (session == null) {
 			return "redirect:Login_page.jsp";
 		} else {
-			
+
 			long qId = Long.parseLong(qid);
 			Map<Long, String> lisAnswers = (Map<Long, String>) session
 					.getAttribute("answerList");
@@ -236,7 +242,7 @@ public class OnlineTestServlet {
 		if (session == null) {
 			return "redirect:Login_page.jsp";
 		} else {
-			
+
 			long qId = Long.parseLong(qid);
 			Map<Long, String> lisAnswers = (Map<Long, String>) session
 					.getAttribute("answerList");
@@ -254,12 +260,12 @@ public class OnlineTestServlet {
 
 	@RequestMapping(value = "/savelastquestion.do", method = RequestMethod.POST)
 	public String SaveLastQuestion(Model model, HttpSession session,
-			String qid,String flag,String answer) {
+			String qid, String flag, String answer) {
 
 		if (session == null) {
 			return "redirect:Login_page.jsp";
 		} else {
-			
+
 			long qId = Long.parseLong(qid);
 			Map<Long, String> lisAnswers = (Map<Long, String>) session
 					.getAttribute("answerList");
@@ -281,7 +287,7 @@ public class OnlineTestServlet {
 	}
 
 	@RequestMapping(value = "/submittest.do", method = RequestMethod.GET)
-	public String submitTest(Model model, HttpSession session,String sid) {
+	public String submitTest(Model model, HttpSession session, String sid) {
 
 		if (session == null) {
 			return "redirect:Login_page.jsp";
@@ -289,114 +295,115 @@ public class OnlineTestServlet {
 			int ccount = 0;
 			int wcount = 0;
 			int ncount = 0;
-			
+
 			Object obj = session.getAttribute("testSection");
-			if(obj == null){
+			if (obj == null) {
 				return homePage(model, session);
 			} else {
-				
-			TestSection testSection = (TestSection) obj;
-		
-			Map<Long, String> lisAnswers = (Map<Long, String>) session
-					.getAttribute("answerList");
-			NormalTest normalTest = new NormalTest();
-			normalTest.setTestSection(testSection);
-			normalTest.settDate(new Date());
-			List<NormalFeedBack> listNormalFeedBack = new ArrayList<NormalFeedBack>();
 
-			for (TestQuestions test : testSection.getListQuestions()) {
-				NormalFeedBack normalFeedBack = new NormalFeedBack();
-				String testanswer = test.getAnswer();
-				String givanswer = lisAnswers.get(test.getqId());
-				normalFeedBack.setAnswerCorrect(testanswer);
-				normalFeedBack.setqId(test.getqId());
-				String testans[] = testanswer.split(",");
-				if (givanswer == null) {
-					ncount++;
-					normalFeedBack.setResult("wrong");
-					normalFeedBack.setAnswerGiven("Not Attempted");
-				} else {
-					String givans[] = givanswer.split(",");
-					boolean flag = false;
-					for (String s : givans) {
-						if (!s.equalsIgnoreCase("Z")) {
-							flag = true;
-							break;
-						}
-					}
-					if (!flag) {
+				TestSection testSection = (TestSection) obj;
+
+				Map<Long, String> lisAnswers = (Map<Long, String>) session
+						.getAttribute("answerList");
+				NormalTest normalTest = new NormalTest();
+				normalTest.setTestSection(testSection);
+				normalTest.settDate(new Date());
+				List<NormalFeedBack> listNormalFeedBack = new ArrayList<NormalFeedBack>();
+
+				for (TestQuestions test : testSection.getListQuestions()) {
+					NormalFeedBack normalFeedBack = new NormalFeedBack();
+					String testanswer = test.getAnswer();
+					String givanswer = lisAnswers.get(test.getqId());
+					normalFeedBack.setAnswerCorrect(testanswer);
+					normalFeedBack.setqId(test.getqId());
+					String testans[] = testanswer.split(",");
+					if (givanswer == null) {
 						ncount++;
-						normalFeedBack.setAnswerGiven("Not Attempted");
 						normalFeedBack.setResult("wrong");
-					}
-					flag = false;
-					int c = 0;
-					StringBuffer sb = new StringBuffer();
-					for (String s : givans) {
-						if (!s.equalsIgnoreCase("Z")) {
-							c++;
-							sb.append(s + ",");
-						}
-					}
-					if (c == 0) {
-						lisAnswers.put(test.getqId(), null);
 						normalFeedBack.setAnswerGiven("Not Attempted");
 					} else {
-						String str = sb.toString();
-						normalFeedBack.setAnswerGiven(str.substring(0,
-								str.length() - 1));
-						lisAnswers.put(test.getqId(),
-								str.substring(0, str.length() - 1));
-					}
-					if (c == testans.length) {
-						for (String an : testans) {
-							if (!givanswer.contains(an)) {
+						String givans[] = givanswer.split(",");
+						boolean flag = false;
+						for (String s : givans) {
+							if (!s.equalsIgnoreCase("Z")) {
 								flag = true;
 								break;
 							}
 						}
 						if (!flag) {
-							ccount++;
-							normalFeedBack.setResult("correct");
+							ncount++;
+							normalFeedBack.setAnswerGiven("Not Attempted");
+							normalFeedBack.setResult("wrong");
+						}
+						flag = false;
+						int c = 0;
+						StringBuffer sb = new StringBuffer();
+						for (String s : givans) {
+							if (!s.equalsIgnoreCase("Z")) {
+								c++;
+								sb.append(s + ",");
+							}
+						}
+						if (c == 0) {
+							lisAnswers.put(test.getqId(), null);
+							normalFeedBack.setAnswerGiven("Not Attempted");
+						} else {
+							String str = sb.toString();
+							normalFeedBack.setAnswerGiven(str.substring(0,
+									str.length() - 1));
+							lisAnswers.put(test.getqId(),
+									str.substring(0, str.length() - 1));
+						}
+						if (c == testans.length) {
+							for (String an : testans) {
+								if (!givanswer.contains(an)) {
+									flag = true;
+									break;
+								}
+							}
+							if (!flag) {
+								ccount++;
+								normalFeedBack.setResult("correct");
+							} else {
+								wcount++;
+								normalFeedBack.setResult("wrong");
+							}
+
 						} else {
 							wcount++;
 							normalFeedBack.setResult("wrong");
 						}
-
-					} else {
-						wcount++;
-						normalFeedBack.setResult("wrong");
 					}
+					listNormalFeedBack.add(normalFeedBack);
 				}
-				listNormalFeedBack.add(normalFeedBack);
-			}
-			normalTest.settMarks(ccount);
-			normalTest.setListNormalFeedBack(listNormalFeedBack);
-			long tId = onlineTestServiceImp.addTestDetails(normalTest,
-					(Long) session.getAttribute("uid"));
+				normalTest.settMarks(ccount);
+				normalTest.setListNormalFeedBack(listNormalFeedBack);
+				long tId = onlineTestServiceImp.addTestDetails(normalTest,
+						(Long) session.getAttribute("uid"));
 
-			if (tId != 0) {
-				model.addAttribute("userid", session.getAttribute("uid"));
-				model.addAttribute("testid", tId);
-				model.addAttribute("correctcount", ccount);
-				model.addAttribute("wrongcount", testSection
-						.getListQuestions().size() - ncount - ccount);
-				model.addAttribute("notcount", ncount);
-				session.setAttribute("testSection", null);
-				return "displayresult";
+				if (tId != 0) {
+					model.addAttribute("userid", session.getAttribute("uid"));
+					model.addAttribute("testid", tId);
+					model.addAttribute("correctcount", ccount);
+					model.addAttribute("wrongcount", testSection
+							.getListQuestions().size() - ncount - ccount);
+					model.addAttribute("notcount", ncount);
+					session.setAttribute("testSection", null);
+					return "displayresult";
+				}
 			}
-		}}
+		}
 		return homePage(model, session);
 	}
 
 	@RequestMapping(value = "/getentireresult.do", method = RequestMethod.GET)
-	public String getEntireResult(Model model, HttpSession session,
-			String uid, String tid) {
+	public String getEntireResult(Model model, HttpSession session, String uid,
+			String tid) {
 
 		if (session == null) {
 			return "redirect:Login_page.jsp";
 		} else {
-			
+
 			long testid = Long.parseLong(tid);
 			model.addAttribute("uid", uid);
 			model.addAttribute("tid", tid);
@@ -426,7 +433,8 @@ public class OnlineTestServlet {
 		String sdescription = request.getParameter("sdescription");
 		String stime = request.getParameter("stime");
 		int sTime = Integer.parseInt(stime);
-		TestSection testSection = new TestSection(0, sname, sdescription, sTime, onlineTestServiceImp.getCategoryById(cid), null);
+		TestSection testSection = new TestSection(0, sname, sdescription,
+				sTime, onlineTestServiceImp.getCategoryById(cid), null);
 		if (onlineTestServiceImp.addTestSection(testSection, cid)) {
 			model.addAttribute("message", "Section Added Successfully");
 		} else {
@@ -452,9 +460,8 @@ public class OnlineTestServlet {
 	}
 
 	@RequestMapping(value = "/addquestionstart.do", method = RequestMethod.GET)
-	public String addNewQuestion(Model model, HttpSession session,
-			String cid) {
-	
+	public String addNewQuestion(Model model, HttpSession session, String cid) {
+
 		long cId = Long.parseLong(cid);
 		List<TestSection> sectionList = onlineTestServiceImp
 				.getAllSectionsByCategoryId(cId);
@@ -463,8 +470,7 @@ public class OnlineTestServlet {
 	}
 
 	@RequestMapping(value = "/displaysection.do")
-	public String displaySection(Model model, HttpSession session,
-			String cid) {
+	public String displaySection(Model model, HttpSession session, String cid) {
 		long id = Long.parseLong(cid);
 		List<TestSection> listOfSect = onlineTestServiceImp
 				.getAllSectionsByCategoryId(id);
@@ -494,22 +500,25 @@ public class OnlineTestServlet {
 		}
 		return count;
 	}
-	@RequestMapping(value="/logout")
-	public String logOut(Model model,HttpSession session){
-		if(session == null){
+
+	@RequestMapping(value = "/logout")
+	public String logOut(Model model, HttpSession session) {
+		if (session == null) {
 			return "redirect:Login_page.jsp";
-		} else{
+		} else {
 			session.invalidate();
 			return "redirect:Login_page.jsp";
 		}
 	}
-	@RequestMapping(value="/gettestdetails.do")
-	public String getTestDetails(Model model,HttpSession session){
-		if(session == null){
+
+	@RequestMapping(value = "/gettestdetails.do")
+	public String getTestDetails(Model model, HttpSession session) {
+		if (session == null) {
 			return "redirect:Login_page.jsp";
-		} else{
+		} else {
 			long uId = (long) session.getAttribute("uid");
-			List<NormalTest> listNormalTest = onlineTestServiceImp.getTestDetailsByUserId(uId);
+			List<NormalTest> listNormalTest = onlineTestServiceImp
+					.getTestDetailsByUserId(uId);
 			model.addAttribute("testDetails", listNormalTest);
 		}
 		return "getTestDetails";
