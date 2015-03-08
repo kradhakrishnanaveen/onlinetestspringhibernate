@@ -86,13 +86,17 @@ public class OnlineTestServlet {
 						"Please Enter Valid Username or Password");
 				return "Login_page";
 			} else {
-				System.out
-						.println(user.getEmail() + " = " + user.getPassword());
+
 				if (uname.equals(user.getEmail())
 						&& pwd.equals(user.getPassword())) {
-
+					if (uname.equals("admin@gmail.com")) {
+						session.setAttribute("myadmin", "iamtheadmin");
+					} else{
+						session.setAttribute("myadmin", null);
+					}
 					session.setAttribute("uid", user.getuId());
 					session.setAttribute("uname", user.getuName());
+
 					return homePage(model, session);
 				} else {
 					model.addAttribute("message",

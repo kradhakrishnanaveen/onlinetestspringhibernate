@@ -31,7 +31,7 @@
 				},
 				pwd : {
 					required : true,
-					minlength : 6
+					minlength : 5
 				}
 			},
 			messages : {

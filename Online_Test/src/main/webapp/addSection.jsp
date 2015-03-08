@@ -6,9 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Add New Section</title>
-<link rel="stylesheet" href="css/bootstrap.min.new.css" />
+<!-- <link rel="stylesheet" href="css/bootstrap.min.new.css" />
 <script src="js/bootstrap.min.new.js"></script>
-<script src="js/jquery.min.new.js"></script>
+<script src="js/jquery.min.new.js"></script> -->
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -68,10 +68,13 @@ color:red;
 input.error{
 border:1px solid red;
 }
+.adsection{
+border-radius:20px;
+}
 </style>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid" style="padding: 2%;">
 		<div class="panel panel-primary">
 			<div class="panel-heading" align="center">
 				<h3 class="panel-title">Add New Section</h3>
@@ -117,11 +120,11 @@ border:1px solid red;
 					<div class="form-group">
 						<div class="col-md-4"></div>
 						<div class="col-md-2">
-						<input type="submit" name="addsec" id="addsec" value="Add Section" class="form-control btn btn-primary">
+						<input type="submit" name="addsec" id="addsec" value="Add Section" class="form-control btn btn-primary adsection">
 						</div>
 			
 						<div class="col-md-2">
-						<input type="reset" name="reset" id="reset" class="form-control btn btn-primary">
+						<input type="reset" name="reset" id="reset" class="form-control btn btn-primary adsection">
 						</div>	
 						<div class="col-md-4"></div>
 					</div>

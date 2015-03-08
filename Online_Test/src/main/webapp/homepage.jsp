@@ -20,8 +20,13 @@
 			$.get("subhomepage.do?cId="+val,show);
 		});
 		$("#feedbackbtn").click(function(){
-			var val = $(this).val();
 			$.get("gettestdetails.do",show);
+		});
+		$("#adcat").click(function(){
+			$.get("addCategory.jsp",show);
+		});
+		$("#adsect").click(function(){
+			$.get("addsectionstart.do",show);
 		});
 		function show(data){
 			$("#carosel").html("");
@@ -68,6 +73,16 @@ width: 8%;
 margin-top: 0.6%;
 border-radius: 23px;
 }
+#adcat{
+width: 8%;
+margin-top: 0.6%;
+border-radius: 23px;
+}
+#adsect{
+width: 8%;
+margin-top: 0.6%;
+border-radius: 23px;
+}
 .menus{
 margin-left: 10px;;
 width: 12%;
@@ -86,11 +101,17 @@ border-radius: 23px !important;
 					id="homebtn">
 					Home
 				</button></a>
-			<button class="btn btn-success" type="button" id="feedbackbtn">FeedBack</button>	
+			<c:if test="${myadmin eq null }">
+			<button class="btn btn-success" type="button" id="feedbackbtn">FeedBack</button>
+			</c:if>	
 			<c:set var="counter" value="2" />	
 			<c:forEach items="${listCategories }" var="cat">
 				<button class="btn btn-default menus" id="menu${cat.cId }" value="${cat.cId }" name="menu${cat.cId }">${cat.cName }</button>
-			</c:forEach>	
+			</c:forEach>
+			<c:if test="${myadmin ne null }">
+				<button class="btn btn-success menus" type="button" id="adcat">Add Category</button>
+				<button class="btn btn-success menus" type="button" id="adsect">Add Section</button>
+			</c:if>	
 				<!-- <button class="btn btn-primary" type="button" id="menu2" >
 					Java
 				</button>
