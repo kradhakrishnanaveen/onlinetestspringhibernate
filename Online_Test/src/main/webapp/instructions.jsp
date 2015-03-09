@@ -46,7 +46,7 @@ $(function(){
    A candidate can choose to deselect his/her answer for a particular question by clicking on the CLEAR RESPONSE button provided against each question.
 9. A candidate can review his/her answers by using the flag button available at the top of the question.
 10.Review All of Your Answers Before Submitting the Quiz.
-   Make sure you have not accidentally changed your response to a question or made a typographic mistake.
+   Make sure you have not accidentally changed your response to a question.
 11.The question numbers of attempted and un attempted questions are also shown to the right of the screen.
 12.A candidate can then click on any of the question numbers to view the question,in order to attempt/revise his/her the answer.
 13.Each question number will be displayed in a particular colour depending on the status of the question:
@@ -54,7 +54,7 @@ $(function(){
 			<button class="btn btn-sm"style="background-color:#587498; "></button> Not Answered: Question has been viewed but not answered
 			<button class="btn btn-sm"style="background-color:#92CD00; "></button> Answered: Question has been answered
 			<button class="btn btn-sm"style="background-color: #E86850"></button> Marked: Question has been marked for review later
-14.When you are satisfied with the result make sure you finish by clicking the FINISH TEST button at the bottom of the screen.
+14.When you are satisfied with the result make sure you finish by clicking the FINISH TEST button at the top of the screen.
    Click the Button ONLY ONCE!
 15.This Section has got ${testSection.getListQuestions().size() } Questions with total time of ${testSection.sTime} minutes.   
 </pre>

@@ -30,7 +30,7 @@ $(function(){
 			<div class="panel-body">
 			
 			<c:if test="${myadmin ne null }">
-				<button value="${category.cId }" class="btn btn-success" id="adques" style="border-radius:20px;">Add Question</button>	
+				<button value="${category.cId }" class="btn btn-success" id="adques" style="border-radius:20px;">Add Question <span class="glyphicon glyphicon-plus"></span></button>	
 			</c:if>
 			<br>
 			<br>

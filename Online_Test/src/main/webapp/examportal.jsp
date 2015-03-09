@@ -210,7 +210,8 @@ border-radius: 20px;
 			<div class="col-md-7">
 				<div class="col-md-6" id="display-center-2">
 					<button class="btn btn-default active col-md-12" id="instructions"
-						style="border-radius: 20px;">Instructions</button>
+						style="border-radius: 20px;" data-toggle="modal" 
+   data-target="#myModal">Instructions</button>
 				</div>
 				<div class="col-md-6" id="display-center-3">
 					<!-- <form action="submittest.do" method="post" role="form"> -->
@@ -281,7 +282,47 @@ border-radius: 20px;
 		<div class="col-md-10" id="display-question-body">
 		<%@ include file="subexamportal.jsp" %>
 		</div>
-
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+               Instructions
+            </h4>
+         </div>
+         <div class="modal-body">
+            <pre style="font-size:15px;line-height:1.5331; background-color:white;font-family: Arial,sans-serif;">
+1. Review All of Your Answers Before Submitting the Quiz.
+2. The question numbers of attempted and un attempted questions are also shown to the right of the screen.
+3. A candidate can then click on any of the question numbers to view the question,in order to attempt/revise his/her the answer.
+4. Each question number will be displayed in a particular colour depending on the status of the question:
+		<button class="btn btn-sm"style="background-color: rgba(179, 179, 179, 1);"></button> Not visited: Question has not been viewed/ attempted
+		<button class="btn btn-sm"style="background-color:#587498; "></button> Not Answered: Question has been viewed but not answered
+		<button class="btn btn-sm"style="background-color:#92CD00; "></button> Answered: Question has been answered
+		<button class="btn btn-sm"style="background-color: #E86850"></button> Marked: Question has been marked for review later
+5. When you are satisfied with the result make sure you finish by clicking the FINISH TEST button at the top of the screen.
+   Click the Button ONLY ONCE!
+6. The Active question will be displayed in the following button color:
+		<button class="btn btn-sm"style="background-color: rgba(156, 153, 153, 1);"></button>
+7. After selecting an answer for a question the candidate should click on the SAVE And NEXT button to save his answer and
+   proceed to the next question. Note that without clicking on Save And Next button the answer selected for a question will   
+   not be saved.
+            </pre>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default active" 
+               data-dismiss="modal">Ok Got It!
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+	</div>
 	</div>
 </body>
 </html>

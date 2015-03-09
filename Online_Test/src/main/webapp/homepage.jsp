@@ -74,12 +74,12 @@ margin-top: 0.6%;
 border-radius: 23px;
 }
 #adcat{
-width: 8%;
+width: 10%;
 margin-top: 0.6%;
 border-radius: 23px;
 }
 #adsect{
-width: 8%;
+width: 10%;
 margin-top: 0.6%;
 border-radius: 23px;
 }
@@ -109,8 +109,8 @@ border-radius: 23px !important;
 				<button class="btn btn-default menus" id="menu${cat.cId }" value="${cat.cId }" name="menu${cat.cId }">${cat.cName }</button>
 			</c:forEach>
 			<c:if test="${myadmin ne null }">
-				<button class="btn btn-success menus" type="button" id="adcat">Add Category</button>
-				<button class="btn btn-success menus" type="button" id="adsect">Add Section</button>
+				<button class="btn btn-success menus" type="button" id="adcat">Add Category <span class="glyphicon glyphicon-plus"></span></button>
+				<button class="btn btn-success menus" type="button" id="adsect">Add Section <span class="glyphicon glyphicon-plus"></span></button>
 			</c:if>	
 				<!-- <button class="btn btn-primary" type="button" id="menu2" >
 					Java

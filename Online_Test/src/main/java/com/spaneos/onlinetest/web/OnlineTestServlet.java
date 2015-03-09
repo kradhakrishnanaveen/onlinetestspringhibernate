@@ -119,7 +119,7 @@ public class OnlineTestServlet {
 	public String subHomePage(Model model, HttpSession session, String cId) {
 
 		if (session == null) {
-			return "redirect:Login_page";
+			return "redirect:Login_page.jsp";
 		} else {
 			long id = Long.parseLong(cId);
 			Category category = onlineTestServiceImp.getCategoryById(id);
@@ -132,7 +132,7 @@ public class OnlineTestServlet {
 	public String homePage(Model model, HttpSession session) {
 
 		if (session == null) {
-			return "Login_page";
+			return "redirect:Login_page.jsp";
 		} else {
 			List<Category> listCategories = onlineTestServiceImp
 					.getAllCategories();
