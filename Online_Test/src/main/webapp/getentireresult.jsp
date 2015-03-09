@@ -41,6 +41,7 @@ display:none;
 <div id="wrapper" class="container-fluid">
 
 	<%@include file="header.jsp" %>
+	
 	<div class="container-fluid" style="margin-top: 60px;margin-bottom: 30px;">
 		<input type="hidden" id="uid" name="uid" value="${uid }"> <input
 			type="hidden" id="tid" name="tid" value="${tid }">
@@ -56,14 +57,18 @@ display:none;
 					Section Name: <span>${normaltest.testSection.sName }</span>
 				</p>
 			</div>
-			<div class="col-md-12" align="left">
+			<div class="col-md-6" align="left">
 			<p>
 				No of Marks Scored: <span>${normaltest.tMarks }</span>
 			</p>
 			</div>
+			<div class="col-md-6" align="right">
+			
+				<a href="homepage.do"><button class="btn btn-primary" style="border-radius:20px;width: 20%;">Home</button></a>
+			</div>
 		</div>
 
-		<div class="col-md-12"> 
+		<div class="col-md-12" style="margin-top: 2%;"> 
 			<c:set value="1" var="counter" />
 			<c:forEach items="${normaltest.testSection.listQuestions }" var="testQuestion">
 				<div class="col-md-12" style="border: 1px solid; padding: 2%;border-radius:40px;">
